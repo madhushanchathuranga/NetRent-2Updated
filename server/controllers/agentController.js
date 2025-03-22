@@ -60,6 +60,18 @@ const createAgent = async (req, res) => {
   }
 };
 
+// ✅ Get All Agents
+const getAllAgents = async (req, res) => {
+  try {
+    const agents = await Agent.find(); // Fetch all agents from the database
+    res.status(200).json(agents);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching agents", error: error.message });
+  }
+};
+
 // ✅ Get Single Agent by ID
 const getAgentById = async (req, res) => {
   try {
@@ -79,4 +91,4 @@ const getAgentById = async (req, res) => {
   }
 };
 
-module.exports = { createAgent, getAgentById };
+module.exports = { createAgent, getAllAgents, getAgentById };
