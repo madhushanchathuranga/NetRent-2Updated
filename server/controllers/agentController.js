@@ -1,10 +1,12 @@
 const Agent = require("../models/Agent"); // Import Agent model
+const generateLicenseNumber = require("../utils/generateLicenseNumber"); // Import function to generate license number
 
 const createAgent = async (req, res) => {
   try {
     const {
-      licenseNumber,
       email,
+      name,
+      password,
       phoneNumber,
       aboutMe,
       facebook,
@@ -24,10 +26,15 @@ const createAgent = async (req, res) => {
         .json({ message: "Agent with this email already exists." });
     }
 
+    // ✅ Generate unique license number
+    const licenseNumber = await generateLicenseNumber();
+
     // ✅ Create new agent
     const newAgent = new Agent({
       licenseNumber,
+      name,
       email,
+      password,
       phoneNumber,
       aboutMe,
       facebook,

@@ -2,8 +2,10 @@ const mongoose = require("mongoose");
 
 const agentSchema = new mongoose.Schema(
   {
-    licenseNumber: { type: String, required: true, unique: true },
+    licenseNumber: { type: String, unique: true },
+    name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     aboutMe: { type: String },
     facebook: { type: String },
