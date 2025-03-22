@@ -1,11 +1,14 @@
 const express = require("express");
-const { createAgent, getAgentById } = require("../controllers/agentController"); // ✅ Import agent function
+const {
+  createAgent,
+  getAgentById,
+  getAllAgents,
+} = require("../controllers/agentController");
 
 const router = express.Router();
 
-router.post("/register", createAgent); // ✅ Route for creating an agent
-
-// ✅ Get a Single Agent by ID
-router.get("/:licenseNumber", getAgentById);
+router.post("/register", createAgent); // Create an agent
+router.get("/", getAllAgents); // Get all agents
+router.get("/:licenseNumber", getAgentById); // Get agent by license number
 
 module.exports = router;
