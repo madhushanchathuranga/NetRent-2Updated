@@ -7,6 +7,7 @@ const agentSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     phoneNumber: { type: String, required: true },
+    postalCode: { type: String, required: true },
     aboutMe: { type: String },
     facebook: { type: String },
     instagram: { type: String },

@@ -31,6 +31,7 @@ const JoinAgentCard = () => {
     email: "",
     password: "",
     phoneNumber: "",
+    postalCode: "",
     aboutMe: "",
     facebook: "",
     instagram: "",
@@ -437,6 +438,41 @@ const JoinAgentCard = () => {
                       name="phoneNumber"
                       value={formData.phoneNumber || ""}
                       placeholder="+6112345647"
+                      className="w-full text-[12px] px-4 h-full p-2 focus:outline-none"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full flex flex-col items-center gap-7">
+                <div className="w-full flex flex-row items-center justify-center gap-2">
+                  <p className="text-[min(3vw,16px)] text-[#2d2d2] font-bold">
+                    Postal Code
+                  </p>
+
+                  <div className="w-[46px] h-[22px] p-1 bg-[#FFF8E2] rounded-l-full rounded-r-full items-center justify-center flex flex-row gap-1">
+                    <img
+                      src={pointIcon}
+                      alt="Points icon"
+                      className="size-[15px]"
+                    />
+                    <p className="text-[#AA7F00] text-[min(3vw,14px)] font-bold">
+                      X 1
+                    </p>
+                  </div>
+                </div>
+
+                <div className="w-full max-w-[422px] flex flex-col gap-1">
+                  <p className="text-[min(3vw,10px)] text-[#2D2D2D] font-medium">
+                    Postal Code
+                  </p>
+                  <div className="w-full h-[43px] rounded-r-full rounded-l-full bg-white border-[#F2F2F2] border-[1px]">
+                    <input
+                      type="text"
+                      name="postalCode"
+                      value={formData.postalCode || ""}
+                      placeholder="12345"
                       className="w-full text-[12px] px-4 h-full p-2 focus:outline-none"
                       onChange={handleChange}
                     />
