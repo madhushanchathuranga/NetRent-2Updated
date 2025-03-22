@@ -27,7 +27,9 @@ const JoinAgentCard = () => {
 
   const [formData, setFormData] = useState({
     licenseNumber: "",
+    name: "",
     email: "",
+    password: "",
     phoneNumber: "",
     aboutMe: "",
     facebook: "",
@@ -65,13 +67,12 @@ const JoinAgentCard = () => {
       return { ...prev, [name]: value };
     });
 
-    console.log(`Updated: ${name} -> ${value}`);
+    //console.log(`Updated: ${name} -> ${value}`);
   };
 
   //Create a handleSubmit function to send data to the backend:
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting Data:", JSON.stringify(formData, null, 2)); // Debugging
 
     try {
       const response = await axios.post(
@@ -80,7 +81,6 @@ const JoinAgentCard = () => {
         { headers: { "Content-Type": "application/json" } }
       );
       alert("Agent registered successfully!");
-      console.log("Server Response:", response.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response?.data || error.message);
@@ -185,7 +185,7 @@ const JoinAgentCard = () => {
       serviceProposal: selectedOption, // Ensure correct field update
     }));
 
-    console.log("Updated serviceProposal:", selectedOption);
+    //console.log("Updated serviceProposal:", selectedOption);
   };
 
   // Handle marketing selection
@@ -203,7 +203,7 @@ const JoinAgentCard = () => {
       marketingProposal: selectedOption, // ✅ Updates formData
     }));
 
-    console.log("Updated marketingProposal:", selectedOption);
+    //console.log("Updated marketingProposal:", selectedOption);
   };
 
   useEffect(() => {
@@ -294,8 +294,43 @@ const JoinAgentCard = () => {
                     <input
                       type="text"
                       name="licenseNumber"
-                      value={formData.licenseNumber || ""}
-                      placeholder="123 1455 "
+                      value={formData.licenseNumber || "Generating..."}
+                      placeholder="AGT-123456"
+                      className="w-full text-[12px] px-4 h-full p-2 focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full flex flex-col items-center gap-7">
+                {/* Name Field */}
+                <div className="w-full flex flex-row items-center justify-center gap-2">
+                  <p className="text-[min(3vw,16px)] text-[#2d2d2d] font-bold">
+                    Name
+                  </p>
+                  <div className="w-[46px] h-[22px] p-1 bg-[#FFF8E2] rounded-l-full rounded-r-full items-center justify-center flex flex-row gap-1">
+                    <img
+                      src={pointIcon}
+                      alt="Points icon"
+                      className="size-[15px]"
+                    />
+                    <p className="text-[#AA7F00] text-[min(3vw,14px)] font-bold">
+                      X 1
+                    </p>
+                  </div>
+                </div>
+
+                <div className="w-full max-w-[422px] flex flex-col gap-1">
+                  <p className="text-[min(3vw,10px)] text-[#2D2D2D] font-medium">
+                    Name
+                  </p>
+                  <div className="w-full h-[43px] rounded-r-full rounded-l-full bg-white border-[#F2F2F2] border-[1px]">
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name || ""}
+                      placeholder="Enter your name"
                       className="w-full text-[12px] px-4 h-full p-2 focus:outline-none"
                       onChange={handleChange}
                     />
@@ -333,6 +368,42 @@ const JoinAgentCard = () => {
                       placeholder="netrent@email.com"
                       className="w-full text-[12px] px-4 h-full p-2 focus:outline-none"
                       onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full flex flex-col items-center gap-7">
+                <div className="w-full flex flex-row items-center justify-center gap-2">
+                  <p className="text-[min(3vw,16px)] text-[#2d2d2d] font-bold">
+                    Password
+                  </p>
+                  <div className="w-[46px] h-[22px] p-1 bg-[#FFF8E2] rounded-l-full rounded-r-full items-center justify-center flex flex-row gap-1">
+                    <img
+                      src={pointIcon}
+                      alt="Points icon"
+                      className="size-[15px]"
+                    />
+                    <p className="text-[#AA7F00] text-[min(3vw,14px)] font-bold">
+                      X 1
+                    </p>
+                  </div>
+                </div>
+
+                <div className="w-full max-w-[422px] flex flex-col gap-1">
+                  <p className="text-[min(3vw,10px)] text-[#2D2D2D] font-medium">
+                    Password
+                  </p>
+                  <div className="w-full h-[43px] rounded-r-full rounded-l-full bg-white border-[#F2F2F2] border-[1px]">
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password || ""}
+                      placeholder="Enter your password"
+                      className="w-full text-[12px] px-4 h-full p-2 focus:outline-none"
+                      onChange={handleChange}
+                      required
                     />
                   </div>
                 </div>
