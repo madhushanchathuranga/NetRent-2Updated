@@ -16,6 +16,7 @@ const agentSchema = new mongoose.Schema(
     tiktok: { type: String },
     serviceProposal: { type: String },
     marketingProposal: { type: String },
+    agentImage: { type: String },
   },
   { timestamps: true }
 );

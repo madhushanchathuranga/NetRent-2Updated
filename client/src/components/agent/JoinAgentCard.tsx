@@ -40,6 +40,7 @@ const JoinAgentCard = () => {
     tiktok: "",
     serviceProposal: "",
     marketingProposal: "",
+    agentImage: "",
     serviceFee: {
       residential: { rent: 0.3, sale: 1 },
       commercial: { lease: 0.3, sale: 1 },
@@ -71,23 +72,58 @@ const JoinAgentCard = () => {
     //console.log(`Updated: ${name} -> ${value}`);
   };
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      console.log("Selected File:", file);
+      setSelectedFile(file); // ✅ Store actual file, not URL
+
+      // Optional: Show image preview
+      setFormData((prev) => ({
+        ...prev,
+        agentImage: URL.createObjectURL(file),
+      }));
+    }
+  };
+
   //Create a handleSubmit function to send data to the backend:
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("password", formData.password);
+    formDataToSend.append("phoneNumber", formData.phoneNumber);
+    formDataToSend.append("postalCode", formData.postalCode);
+    formDataToSend.append("aboutMe", formData.aboutMe);
+    formDataToSend.append("facebook", formData.facebook);
+    formDataToSend.append("instagram", formData.instagram);
+    formDataToSend.append("linkedin", formData.linkedin);
+    formDataToSend.append("youtube", formData.youtube);
+    formDataToSend.append("tiktok", formData.tiktok);
+    formDataToSend.append("serviceProposal", formData.serviceProposal);
+    formDataToSend.append("marketingProposal", formData.marketingProposal);
+
+    // ✅ Append the image file (not a blob URL)
+    if (selectedFile) {
+      formDataToSend.append("agentImage", selectedFile);
+    }
+
+    console.log("Sending FormData:", formDataToSend);
+
     try {
       const response = await axios.post(
         "http://localhost:3000/api/agents/register",
-        formData,
-        { headers: { "Content-Type": "application/json" } }
+        formDataToSend,
+        { headers: { "Content-Type": "multipart/form-data" } } // ✅ Must be multipart/form-data
       );
+
       alert("Agent registered successfully!");
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.response?.data || error.message);
-      } else {
-        console.error("Unexpected error:", error);
-      }
+      console.error("Error registering agent:", error);
       alert("Failed to register agent.");
     }
   };
@@ -334,6 +370,36 @@ const JoinAgentCard = () => {
                       placeholder="Enter your name"
                       className="w-full text-[12px] px-4 h-full p-2 focus:outline-none"
                       onChange={handleChange}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full flex flex-col items-center gap-7">
+                <div className="w-full flex flex-row items-center justify-center gap-2">
+                  <p className="text-[min(3vw,16px)] text-[#2d2d2] font-bold">
+                    Image
+                  </p>
+
+                  <div className="w-[46px] h-[22px] p-1 bg-[#FFF8E2] rounded-l-full rounded-r-full items-center justify-center flex flex-row gap-1">
+                    <img
+                      src={pointIcon}
+                      alt="Points icon"
+                      className="size-[15px]"
+                    />
+                    <p className="text-[#AA7F00] text-[min(3vw,14px)] font-bold">
+                      X 1
+                    </p>
+                  </div>
+                </div>
+
+                <div className="w-full max-w-[422px] flex flex-col gap-1">
+                  <div className="w-full h-[43px] rounded-r-full rounded-l-full bg-white border-[#F2F2F2] border-[1px]">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      className="w-full text-[12px] px-4 py-2 border border-gray-300 rounded"
                     />
                   </div>
                 </div>
