@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const session = require("express-session");
 const agentRoutes = require("./routes/agentRoutes");
+const path = require("path");
 
 require("./config/passport"); // Load Passport config
 
@@ -20,6 +21,9 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+
+// ✅ Serve static files from the uploads folder
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(
   session({

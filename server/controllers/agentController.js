@@ -3,6 +3,9 @@ const generateLicenseNumber = require("../utils/generateLicenseNumber"); // Impo
 
 const createAgent = async (req, res) => {
   try {
+    console.log("Received Data:", req.body); // ✅ Log incoming request body
+    console.log("Uploaded File:", req.file); // ✅ Log uploaded file
+
     const {
       email,
       name,
@@ -18,6 +21,8 @@ const createAgent = async (req, res) => {
       serviceProposal,
       marketingProposal,
     } = req.body;
+
+    const agentImage = req.file ? `/uploads/${req.file.filename}` : null;
 
     // ✅ Check if the agent already exists
     const existingAgent = await Agent.findOne({ email });
@@ -46,6 +51,7 @@ const createAgent = async (req, res) => {
       tiktok,
       serviceProposal,
       marketingProposal,
+      agentImage,
     });
 
     await newAgent.save(); // ✅ Save to database

@@ -13,21 +13,40 @@ import {
 } from "../../assets/icons";
 import { testUser } from "../../assets/images"; // Default hardcoded image
 
-const AgentCard = ({ licenseNumber }) => {
-  console.log("🟢 Received licenseNumber prop:", licenseNumber);
-  const [agentData, setAgentData] = useState(null);
+// Define the Agent interface
+interface Agent {
+  _id: string;
+  licenseNumber: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  agentImage: string;
+  facebook?: string;
+  youtube?: string;
+  linkedin?: string;
+  tiktok?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface AgentCardProps {
+  licenseNumber: string;
+}
+
+const AgentCard: React.FC<AgentCardProps> = ({ licenseNumber }) => {
+  const [agentData, setAgentData] = useState<Agent | null>(null);
   const [showPropertyAppraisalModal, setShowPropertyAppraisalModal] =
     useState(false);
 
   useEffect(() => {
     if (licenseNumber) {
       const apiUrl = `http://localhost:3000/api/agents/${licenseNumber}`;
-      console.log("📡 Making API call to:", apiUrl);
 
       axios
         .get(apiUrl)
         .then((response) => {
           console.log("✅ API Response:", response.data);
+          console.log("Agent Image:", response.data.agentImage);
           setAgentData(response.data);
         })
         .catch((error) => {
@@ -38,7 +57,12 @@ const AgentCard = ({ licenseNumber }) => {
     }
   }, [licenseNumber]);
 
-  console.log("🔄 Current agentData state:", agentData);
+  // Ensure agent image is correctly formatted
+  const imageUrl = agentData?.agentImage
+    ? `http://localhost:3000${agentData.agentImage}`
+    : testUser;
+
+  console.log("🖼️ Final Image URL:", imageUrl);
 
   return (
     <>
@@ -48,8 +72,8 @@ const AgentCard = ({ licenseNumber }) => {
           {/* Agent Image */}
           <div className="size-[120px] rounded-full bg-gray-200 overflow-hidden flex items-center justify-center">
             <img
-              src={testUser}
-              alt="user"
+              src={imageUrl || testUser}
+              alt="Agent"
               className="w-full h-full object-cover"
             />
           </div>
