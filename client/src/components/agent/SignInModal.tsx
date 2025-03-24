@@ -1,12 +1,18 @@
 import React, { useEffect } from "react";
 import { gsap } from "gsap";
 import { emailBlackIcon, googleIcon } from "../../assets/icons";
+import { useNavigate } from "react-router-dom";
+
 interface SignInModalProps {
   show: boolean;
   onClose: () => void;
+  onRegister: () => void; // Add the onRegister prop
 }
-const SignInModal = ({ show, onClose }: SignInModalProps) => {
+
+const SignInModal = ({ show, onClose}: SignInModalProps) => {
   const modalRef = React.useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (show) {
       gsap.fromTo(
@@ -28,7 +34,7 @@ const SignInModal = ({ show, onClose }: SignInModalProps) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [modalRef]);
+  }, [modalRef, onClose]);
 
   if (!show) return null;
 
@@ -36,8 +42,9 @@ const SignInModal = ({ show, onClose }: SignInModalProps) => {
     <div className="w-full flex items-center justify-center bg-black/20 h-screen fixed top-0 left-0 z-[4000]">
       <div
         ref={modalRef}
-        className="w-full max-w-[328px] h-full flex flex-col justify-between max-h-[491px] rounded-[30px] drop-shadow-md bg-white p-5 gap-2 overflow-hidden"
+        className="w-full max-w-[328px] h-full flex flex-col justify-between max-h-[520px] rounded-[30px] drop-shadow-md bg-white p-5 gap-2 overflow-hidden"
       >
+        {/* Header */}
         <div className="flex flex-col leading-6">
           <h2 className="text-[min(3vw,24px)] text-black font-bold w-full">
             Sign In
@@ -47,6 +54,7 @@ const SignInModal = ({ show, onClose }: SignInModalProps) => {
           </p>
         </div>
 
+        {/* Form */}
         <div className="w-ful flex flex-col gap-5">
           <form className="w-full h-full flex flex-col gap-4">
             <input
@@ -64,12 +72,14 @@ const SignInModal = ({ show, onClose }: SignInModalProps) => {
             </button>
           </form>
 
+          {/* Or Divider */}
           <div className="w-full flex flex-row gap-3 items-center">
             <hr className="w-full border-[#757575]/20 h-[1px]" />
             <p className="text-[12px] text-black font-medium">Or</p>
             <hr className="w-full border-[#757575]/20 h-[1px]" />
           </div>
 
+          {/* Social Sign-in */}
           <div className="w-full flex flex-col gap-4">
             <button className="flex flex-row cursor-pointer px-2 h-[34px] border-[#D9D9D9] border-[1px] rounded-[5px] w-full items-center gap-5">
               <img
@@ -95,6 +105,17 @@ const SignInModal = ({ show, onClose }: SignInModalProps) => {
           </div>
         </div>
 
+        {/* Register Button */}
+        <div className="w-full flex flex-col items-center mt-2">
+          <button
+            onClick={() => navigate("/joinagent")}
+            className="text-[12px] text-[#4BAE4F] font-bold hover:underline cursor-pointer"
+          >
+            Don't have an account? Register here.
+          </button>
+        </div>
+
+        {/* Footer */}
         <div className="w-full flex flex-row justify-between items-center">
           <a
             href="#"
@@ -102,14 +123,12 @@ const SignInModal = ({ show, onClose }: SignInModalProps) => {
           >
             Terms & Conditions
           </a>
-
           <a
             href="#"
             className="text-[11px] text-[#2d2d2d] font-medium cursor-pointer"
           >
             Support
           </a>
-
           <a
             href="#"
             className="text-[11px] text-[#2d2d2d] font-medium cursor-pointer"
