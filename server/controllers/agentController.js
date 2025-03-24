@@ -97,4 +97,18 @@ const getAgentById = async (req, res) => {
   }
 };
 
-module.exports = { createAgent, getAllAgents, getAgentById };
+// Function to search agents by postal code
+const getAgentsByPostalCode = async (req, res) => {
+  try {
+    const { postalCode } = req.params;
+    const agents = await Agent.find({ postalCode: postalCode });
+    if (agents.length === 0) {
+      return res.status(404).json({ message: "No agents found for this postal code" });
+    }
+    res.status(200).json(agents);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching agents by postal code", error });
+  }
+};
+
+module.exports = { createAgent, getAllAgents, getAgentById, getAgentsByPostalCode };
