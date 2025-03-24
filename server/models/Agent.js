@@ -17,6 +17,11 @@ const agentSchema = new mongoose.Schema(
     serviceProposal: { type: String },
     marketingProposal: { type: String },
     agentImage: { type: String },
+    selectedProperties: { type: Number, default: 0 },
+    rentedProperties: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
+    soldProperties: { type: Number, default: 0 },
+    rating: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
