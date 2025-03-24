@@ -2,9 +2,12 @@ const mongoose = require("mongoose");
 
 const agentSchema = new mongoose.Schema(
   {
-    licenseNumber: { type: String, required: true, unique: true },
+    licenseNumber: { type: String, unique: true },
+    name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     phoneNumber: { type: String, required: true },
+    postalCode: { type: String, required: true },
     aboutMe: { type: String },
     facebook: { type: String },
     instagram: { type: String },
@@ -13,6 +16,7 @@ const agentSchema = new mongoose.Schema(
     tiktok: { type: String },
     serviceProposal: { type: String },
     marketingProposal: { type: String },
+    agentImage: { type: String },
   },
   { timestamps: true }
 );

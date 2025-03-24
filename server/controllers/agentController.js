@@ -1,11 +1,17 @@
 const Agent = require("../models/Agent"); // Import Agent model
+const generateLicenseNumber = require("../utils/generateLicenseNumber"); // Import function to generate license number
 
 const createAgent = async (req, res) => {
   try {
+    console.log("Received Data:", req.body); // ✅ Log incoming request body
+    console.log("Uploaded File:", req.file); // ✅ Log uploaded file
+
     const {
-      licenseNumber,
       email,
+      name,
+      password,
       phoneNumber,
+      postalCode,
       aboutMe,
       facebook,
       instagram,
@@ -16,6 +22,8 @@ const createAgent = async (req, res) => {
       marketingProposal,
     } = req.body;
 
+    const agentImage = req.file ? `/uploads/${req.file.filename}` : null;
+
     // ✅ Check if the agent already exists
     const existingAgent = await Agent.findOne({ email });
     if (existingAgent) {
@@ -24,11 +32,17 @@ const createAgent = async (req, res) => {
         .json({ message: "Agent with this email already exists." });
     }
 
+    // ✅ Generate unique license number
+    const licenseNumber = await generateLicenseNumber();
+
     // ✅ Create new agent
     const newAgent = new Agent({
       licenseNumber,
+      name,
       email,
+      password,
       phoneNumber,
+      postalCode,
       aboutMe,
       facebook,
       instagram,
@@ -37,6 +51,7 @@ const createAgent = async (req, res) => {
       tiktok,
       serviceProposal,
       marketingProposal,
+      agentImage,
     });
 
     await newAgent.save(); // ✅ Save to database
@@ -48,6 +63,18 @@ const createAgent = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error creating agent", error: error.message });
+  }
+};
+
+// ✅ Get All Agents
+const getAllAgents = async (req, res) => {
+  try {
+    const agents = await Agent.find(); // Fetch all agents from the database
+    res.status(200).json(agents);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching agents", error: error.message });
   }
 };
 
@@ -70,4 +97,4 @@ const getAgentById = async (req, res) => {
   }
 };
 
-module.exports = { createAgent, getAgentById };
+module.exports = { createAgent, getAllAgents, getAgentById };

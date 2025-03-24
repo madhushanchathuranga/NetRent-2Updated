@@ -1,11 +1,27 @@
 const express = require("express");
-const { createAgent, getAgentById } = require("../controllers/agentController"); // ✅ Import agent function
+const multer = require("multer");
+const {
+  createAgent,
+  getAgentById,
+  getAllAgents,
+} = require("../controllers/agentController");
 
 const router = express.Router();
 
-router.post("/register", createAgent); // ✅ Route for creating an agent
+// ✅ Configure Multer Storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Save files in 'uploads' folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
 
-// ✅ Get a Single Agent by ID
-router.get("/:licenseNumber", getAgentById);
+const upload = multer({ storage: storage });
+
+router.post("/register", upload.single("agentImage"), createAgent);
+router.get("/", getAllAgents); // Get all agents
+router.get("/:licenseNumber", getAgentById); // Get agent by license number
 
 module.exports = router;
