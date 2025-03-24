@@ -13,6 +13,7 @@ import AgentPage from "./pages/AgentPage";
 import CommercialView from "./pages/CommercialView";
 import RoomingPage from "./pages/RoomingPage";
 import RoomingView from "./pages/RoomingView";
+import JoinAgentCard from "./components/agent/JoinAgentCard";
 const App = () => {
   return (
     <Suspense fallback={<Loader />}>
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="agent" element={<AgentPage />} />
             <Route path="rooming" element={<RoomingPage />} />
             <Route path="rooming/:id/:title" element={<RoomingView />} />
+            <Route path="joinagent" element={<JoinAgentCard />} />
           </Route>
         </Routes>
       </Router>
