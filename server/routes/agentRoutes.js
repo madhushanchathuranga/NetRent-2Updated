@@ -4,6 +4,7 @@ const {
   createAgent,
   getAgentById,
   getAllAgents,
+  getAgentsByPostalCode,
 } = require("../controllers/agentController");
 
 const router = express.Router();
@@ -23,5 +24,7 @@ const upload = multer({ storage: storage });
 router.post("/register", upload.single("agentImage"), createAgent);
 router.get("/", getAllAgents); // Get all agents
 router.get("/:licenseNumber", getAgentById); // Get agent by license number
+
+router.get("/search/:postalCode", getAgentsByPostalCode); // Search agent by postal code
 
 module.exports = router;
