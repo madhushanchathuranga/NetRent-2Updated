@@ -25,8 +25,11 @@ interface Agent {
   youtube?: string;
   linkedin?: string;
   tiktok?: string;
-  createdAt: string;
-  updatedAt: string;
+  soldProperties: number;
+  rentedProperties: number;
+  selectedProperties: number;
+  rating: number;
+  views: number;
 }
 
 interface AgentCardProps {
@@ -134,27 +137,129 @@ const AgentCard: React.FC<AgentCardProps> = ({ licenseNumber }) => {
             </a>
           </div>
 
-          {/* Hardcoded Property Stats */}
-          <div className="w-full flex items-center justify-between px-3 py-2 bg-[#F5F5F5] rounded-md">
-            <div className="flex flex-col items-center">
-              <img
-                src={checkCircleGreenIcon}
-                alt="Sold"
-                className="w-[20px] h-[20px]"
-              />
-              <p className="text-[12px] text-[#2d2d2d] font-medium">Sold</p>
-              <p className="text-[14px] font-bold">10</p>
+          <div className="w-full max-w-[176px] flex flex-row gap-7 justify-center items-center p-3 border-[1px] border-[#c0b8b8] rounded-[11px]">
+            <div className="flex flex-col leading-5">
+              <h2 className="text-[min(3vw,24px)] text-[#2d2d2d] font-bold">
+                {agentData?.soldProperties
+                  ? agentData.soldProperties > 9 &&
+                    agentData.soldProperties <= 100
+                    ? `${Math.floor(agentData.soldProperties / 10) * 10}+`
+                    : agentData.soldProperties > 100 &&
+                      agentData.soldProperties <= 1000
+                    ? `${Math.floor(agentData.soldProperties / 100) * 100}+`
+                    : agentData.soldProperties > 1000
+                    ? `${Math.floor(agentData.soldProperties / 1000) * 1000}+`
+                    : agentData.soldProperties
+                  : "0"}
+              </h2>
+              <div className="flex flex-row gap-1 items-center">
+                <img
+                  src={checkCircleGreenIcon}
+                  alt="check"
+                  className="w-[12px] h-[12px]"
+                />
+                <p className="text-[min(3vw,12px)] text-black font-medium">
+                  Sold
+                </p>
+              </div>
             </div>
-            <div className="flex flex-col items-center">
-              <img src={eyeIcon} alt="Views" className="w-[20px] h-[20px]" />
-              <p className="text-[12px] text-[#2d2d2d] font-medium">Views</p>
-              <p className="text-[14px] font-bold">200</p>
+
+            <div className="flex flex-col leading-5">
+              <h2 className="text-[min(3vw,24px)] text-[#2d2d2d] font-bold">
+                {agentData?.rentedProperties
+                  ? agentData.rentedProperties > 9 &&
+                    agentData.rentedProperties <= 100
+                    ? `${Math.floor(agentData.rentedProperties / 10) * 10}+`
+                    : agentData.rentedProperties > 100 &&
+                      agentData.rentedProperties <= 1000
+                    ? `${Math.floor(agentData.rentedProperties / 100) * 100}+`
+                    : agentData.rentedProperties > 1000
+                    ? `${Math.floor(agentData.rentedProperties / 1000) * 1000}+`
+                    : agentData.rentedProperties
+                  : "0"}
+              </h2>
+              <div className="flex flex-row gap-1 items-center">
+                <div className="flex flex-row items-center justify-center size-[12px] rounded-full bg-[#4BAE4F]">
+                  <img src={eyeIcon} alt="check" className="w-[8px] h-[8px]" />
+                </div>
+                <p className="text-[min(3vw,12px)] text-black font-medium">
+                  Rented
+                </p>
+              </div>
             </div>
-            <div className="flex flex-col items-center">
-              <img src={starIcon} alt="Rating" className="w-[20px] h-[20px]" />
-              <p className="text-[12px] text-[#2d2d2d] font-medium">Rating</p>
-              <p className="text-[14px] font-bold">4.2</p>
+          </div>
+
+          <div className="w-full max-w-[232px] flex flex-row gap-4 justify-center items-center p-3 border-[1px] border-[#c0b8b8] rounded-[11px]">
+            <div className="flex flex-col leading-5">
+              <h2 className="text-[min(3vw,24px)] text-[#2d2d2d] font-bold">
+                {agentData?.selectedProperties
+                  ? agentData.selectedProperties > 9 &&
+                    agentData.selectedProperties <= 100
+                    ? `${Math.floor(agentData.selectedProperties / 10) * 10}+`
+                    : agentData.selectedProperties > 100 &&
+                      agentData.selectedProperties <= 1000
+                    ? `${Math.floor(agentData.selectedProperties / 100) * 100}+`
+                    : agentData.selectedProperties > 1000
+                    ? `${
+                        Math.floor(agentData.selectedProperties / 1000) * 1000
+                      }+`
+                    : agentData.selectedProperties
+                  : "0"}
+              </h2>
+              <div className="flex flex-row gap-1 items-center">
+                <img
+                  src={checkCircleGreenIcon}
+                  alt="check"
+                  className="w-[12px] h-[12px]"
+                />
+                <p className="text-[min(3vw,12px)] text-black font-medium">
+                  Selected
+                </p>
+              </div>
             </div>
+            <div className="flex flex-col items-center leading-5">
+              <h2 className="text-[min(3vw,24px)] text-[#2d2d2d] font-bold">
+                {agentData?.rating || "0"}
+              </h2>
+              <div className="flex flex-row gap-[2px]">
+                {Array(3)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div key={index} className="size-[14px]">
+                      <img
+                        src={starIcon}
+                        alt="star icon"
+                        className="w-[14px] h-[14px]"
+                      />
+                    </div>
+                  ))}
+              </div>
+            </div>
+            <div className="flex flex-col leading-5">
+              <h2 className="text-[min(3vw,24px)] text-[#2d2d2d] font-bold">
+                {agentData?.views
+                  ? agentData.views > 9 && agentData.views <= 100
+                    ? `${Math.floor(agentData.views / 10) * 10}+`
+                    : agentData.views > 100 && agentData.views <= 1000
+                    ? `${Math.floor(agentData.views / 100) * 100}+`
+                    : agentData.views > 1000
+                    ? `${Math.floor(agentData.views / 1000) * 1000}+`
+                    : agentData.views
+                  : "0"}
+              </h2>
+              <div className="flex flex-row gap-1 items-center">
+                <div className="flex flex-row items-center justify-center size-[12px] rounded-full bg-[#4BAE4F]">
+                  <img src={eyeIcon} alt="check" className="w-[8px] h-[8px]" />
+                </div>
+                <p className="text-[min(3vw,12px)] text-black font-medium">
+                  Viewed
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-[80px] h-[24px] cursor-pointer bg-white text-[10px] text-[#2d2d2d] border-[1px] border-[#C0B8B8] rounded-l-full rounded-r-full flex items-center justify-center">
+            More Info
           </div>
 
           {/* Contact Button */}
