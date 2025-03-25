@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   agentIcon,
   commercialIcon,
@@ -18,6 +18,7 @@ import { useSearchParams } from "react-router-dom";
 
 const AgentPage = () => {
   const [activeTab, setActiveTab] = React.useState(0);
+  const [agentCount, setAgentCount] = useState(0);
   const [showLoginModal, setShowLoginModal] = React.useState(false);
   const sliderImages = [sl1Img, sl2Img, sl3Img, sl4Img];
 
@@ -28,6 +29,20 @@ const AgentPage = () => {
     if (!searchParams.get("query") || searchParams.get("query") === "") {
       setShowLoginModal(true);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchAgentCount = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/agents/count");
+        const data = await response.json();
+        setAgentCount(data.count);
+      } catch (error) {
+        console.error("Error fetching agent count:", error);
+      }
+    };
+
+    fetchAgentCount();
   }, []);
 
   return (
@@ -129,7 +144,9 @@ const AgentPage = () => {
                   className="w-[15px] h-[16px]"
                 />
               </div>
-              <p className="text-white text-[min(3vw,32px)] font-bold">2</p>
+              <p className="text-white text-[min(3vw,32px)] font-bold">
+                {agentCount}
+              </p>
             </div>
             <h2 className="text-[min(3vw,34px)] text-black font-bold ">
               agents listed

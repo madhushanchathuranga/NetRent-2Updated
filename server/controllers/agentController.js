@@ -164,10 +164,32 @@ const getAgentsByPostalCode = async (req, res) => {
   }
 };
 
+// ✅ Get Agent Count
+const getAgentCount = async (req, res) => {
+  try {
+    console.log("🔹 API Hit: /api/agents/count");
+
+    const count = await Agent.countDocuments({});
+    console.log("✅ Agent Count:", count); // This should log 4 if working
+
+    if (count === 0) {
+      return res.status(404).json({ message: "No agents found" });
+    }
+
+    res.json({ count });
+  } catch (error) {
+    console.error("❌ Error fetching agent count:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching agent count", error: error.message });
+  }
+};
+
 module.exports = {
   createAgent,
   getAllAgents,
   getAgentById,
   updateAgent,
   getAgentsByPostalCode,
+  getAgentCount,
 };
