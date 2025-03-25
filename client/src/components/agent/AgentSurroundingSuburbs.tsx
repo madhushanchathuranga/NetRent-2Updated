@@ -17,16 +17,28 @@ const AgentSurroundingSuburbs = () => {
   ];
 
   const [searchParams] = useSearchParams();
+  const postalCode = searchParams.get("query"); // Get postal code from URL
   const [query] = useState(searchParams.get("query") || "Cannon Hill");
   const [agents, setAgents] = useState([]);
 
-  // Fetch agents from API
+  // Fetch agents based on postal code or default to all agents
   useEffect(() => {
-    fetch("http://localhost:3000/api/agents/")
-      .then((res) => res.json())
-      .then((data) => setAgents(data))
-      .catch((err) => console.error("Error fetching agents:", err));
-  }, []);
+    const fetchAgents = async () => {
+      try {
+        const apiUrl = postalCode
+          ? `http://localhost:3000/api/agents/search/${postalCode}` // Fetch by postal code
+          : "http://localhost:3000/api/agents/"; // Fetch all agents if no postal code
+
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        setAgents(data);
+      } catch (err) {
+        console.error("Error fetching agents:", err);
+      }
+    };
+
+    fetchAgents();
+  }, [postalCode]); // Runs every time postalCode changes
 
   return (
     <div className="w-full h-full grid md:grid-cols-[365px_1fr] gap-4">
