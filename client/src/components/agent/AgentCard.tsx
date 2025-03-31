@@ -48,8 +48,6 @@ const AgentCard: React.FC<AgentCardProps> = ({ licenseNumber }) => {
       axios
         .get(apiUrl)
         .then((response) => {
-          console.log("✅ API Response:", response.data);
-          console.log("Agent Image:", response.data.agentImage);
           setAgentData(response.data);
         })
         .catch((error) => {
@@ -64,8 +62,6 @@ const AgentCard: React.FC<AgentCardProps> = ({ licenseNumber }) => {
   const imageUrl = agentData?.agentImage
     ? `http://localhost:3000${agentData.agentImage}`
     : testUser;
-
-  console.log("🖼️ Final Image URL:", imageUrl);
 
   return (
     <>
