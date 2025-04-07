@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const session = require("express-session");
 const agentRoutes = require("./routes/agentRoutes");
+const propertyRoutes = require("./routes/propertyRoutes");
 const path = require("path");
 
 require("./config/passport"); // Load Passport config
@@ -35,6 +36,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api/agents", agentRoutes);
+app.use("/api/properties", propertyRoutes);
 
 // ✅ Google OAuth routes
 app.get(
