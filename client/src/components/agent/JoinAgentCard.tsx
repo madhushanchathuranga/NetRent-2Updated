@@ -120,7 +120,7 @@ const JoinAgentCard = () => {
         formDataToSend,
         { headers: { "Content-Type": "multipart/form-data" } } // ✅ Must be multipart/form-data
       );
-
+      console.log("Agent registration response:", response.data);
       alert("Agent registered successfully!");
     } catch (error) {
       console.error("Error registering agent:", error);

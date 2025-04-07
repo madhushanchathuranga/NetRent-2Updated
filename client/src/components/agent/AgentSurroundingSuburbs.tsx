@@ -3,6 +3,11 @@ import AgentCard from "./AgentCard";
 import JoinAgentCard from "./JoinAgentCard";
 import { useEffect, useState } from "react";
 
+interface Agent {
+  _id: string;
+  licenseNumber: string;
+}
+
 const AgentSurroundingSuburbs = () => {
   const surroundingSuburbs = [
     "Moningside",
@@ -19,7 +24,7 @@ const AgentSurroundingSuburbs = () => {
   const [searchParams] = useSearchParams();
   const postalCode = searchParams.get("query"); // Get postal code from URL
   const [query] = useState(searchParams.get("query") || "Cannon Hill");
-  const [agents, setAgents] = useState([]);
+  const [agents, setAgents] = useState<Agent[]>([]);
 
   // Fetch agents based on postal code or default to all agents
   useEffect(() => {
