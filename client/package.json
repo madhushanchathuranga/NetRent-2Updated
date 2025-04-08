@@ -1,6 +1,7 @@
 {
   "name": "local-agent",
   "private": true,
+  "homepage": "https://dev.netrent.com.au",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

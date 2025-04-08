@@ -219,6 +219,9 @@ const AgentPage = () => {
       <SignInModal
         show={showLoginModal}
         onClose={() => setShowLoginModal(false)}
+        onRegister={() => {
+          console.log("Register button clicked");
+        }}
       />
     </>
   );

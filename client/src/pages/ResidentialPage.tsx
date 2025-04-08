@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   commercialIcon,
   doorIcon,
@@ -12,308 +11,19 @@ import ResidentialCard from "../components/residential/ResidentialCard";
 import { r1Img, r2Img, r3Img, r4Img, r5Img, r6Img } from "../assets/images";
 import SidePropertyCard from "../components/residential/SidePropertyCard";
 const ResidentialPage = () => {
+  const [propertyData, setPropertyData] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
   const [search, setSearch] = useState("");
-  const navigate = useNavigate();
-  const propertyData = [
-    {
-      name: "John Smith",
-      licenseNo: "4501234",
-      rating: 4.2,
-      reviewCount: 15,
-      profileImage: testUser,
-      verified: true,
-      title: "Modern Apartment Living in the Heart of Cannon Hill",
-      location: "13/61 Ludwick Street, Cannon Hill",
-      category: "House",
-      description:
-        "Positioned on the second level of a contemporary complex, this stylish two-bedroom apartment offers an effortless lifestyle with premium inclusions and exceptional convenience.",
-      bedrooms: 2,
-      bathrooms: 2,
-      garageSpaces: 2,
-      landSize: "758m²",
-      features: [
-        "Built-in wardrobes",
-        "Fully fenced",
-        "Courtyard",
-        "Garage spaces: 2",
-      ],
-      propertyImages: [
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-      ],
-    },
-    {
-      name: "Emma Williams",
-      licenseNo: "4505678",
-      rating: 4.5,
-      reviewCount: 20,
-      profileImage: testUser,
-      verified: true,
-      title: "Spacious Family Home with Modern Amenities",
-      location: "45/120 Victoria Road, South Brisbane",
-      category: "House",
-      description:
-        "A beautiful family home with ample space, great amenities, and a backyard perfect for outdoor activities.",
-      bedrooms: 4,
-      bathrooms: 3,
-      garageSpaces: 2,
-      landSize: "850m²",
-      features: [
-        "Swimming pool",
-        "Built-in wardrobes",
-        "Fully fenced",
-        "Home theater system",
-      ],
-      propertyImages: [
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-      ],
-    },
-    {
-      name: "Michael Brown",
-      licenseNo: "4509876",
-      rating: 4.0,
-      reviewCount: 10,
-      profileImage: testUser,
-      verified: false,
-      title: "Cozy Apartment in the Heart of the City",
-      location: "78/21 George Street, Brisbane City",
-      category: "Apartment",
-      description:
-        "A cozy one-bedroom apartment ideal for city living with all the necessary amenities.",
-      bedrooms: 1,
-      bathrooms: 1,
-      garageSpaces: 1,
-      landSize: "50m²",
-      features: ["Balcony", "Security system", "Air conditioning"],
-      propertyImages: [
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-      ],
-    },
-    {
-      name: "Sophia Johnson",
-      licenseNo: "4512345",
-      rating: 4.3,
-      reviewCount: 18,
-      profileImage: testUser,
-      verified: true,
-      title: "Stylish Penthouse with Stunning Views",
-      location: "200/42 Queen Street, Brisbane",
-      category: "Penthouse",
-      description:
-        "Luxury penthouse with breathtaking city views and high-end finishes throughout.",
-      bedrooms: 3,
-      bathrooms: 2,
-      garageSpaces: 2,
-      landSize: "350m²",
-      features: ["Roof terrace", "Jacuzzi", "Open-plan living"],
-      propertyImages: [
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-      ],
-    },
-    {
-      name: "James Taylor",
-      licenseNo: "4523456",
-      rating: 4.1,
-      reviewCount: 12,
-      profileImage: testUser,
-      verified: false,
-      title: "Beautiful Suburban Home with Large Garden",
-      location: "28/56 Ashgrove Avenue, Ashgrove",
-      category: "House",
-      description:
-        "A spacious home in a quiet neighborhood, complete with a large garden and outdoor patio.",
-      bedrooms: 3,
-      bathrooms: 2,
-      garageSpaces: 1,
-      landSize: "600m²",
-      features: ["Large garden", "Patio", "Built-in wardrobes"],
-      propertyImages: [
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-      ],
-    },
-    {
-      name: "Olivia Martin",
-      licenseNo: "4534567",
-      rating: 4.4,
-      reviewCount: 22,
-      profileImage: testUser,
-      verified: true,
-      title: "Beachfront Apartment with Ocean Views",
-      location: "101/15 Beach Road, Surfers Paradise",
-      category: "Apartment",
-      description:
-        "A luxurious beachfront apartment offering panoramic ocean views and stylish interiors.",
-      bedrooms: 2,
-      bathrooms: 2,
-      garageSpaces: 1,
-      landSize: "120m²",
-      features: ["Beach access", "Balcony with ocean view", "Modern kitchen"],
-      propertyImages: [
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-      ],
-    },
-    {
-      name: "Lucas Williams",
-      licenseNo: "4545678",
-      rating: 4.6,
-      reviewCount: 25,
-      profileImage: testUser,
-      verified: true,
-      title: "Luxurious Family Estate with Multiple Living Spaces",
-      location: "30/89 Newstead Drive, Newstead",
-      category: "House",
-      description:
-        "An expansive family estate with a large pool, multiple living spaces, and elegant finishes.",
-      bedrooms: 5,
-      bathrooms: 4,
-      garageSpaces: 3,
-      landSize: "1200m²",
-      features: ["Swimming pool", "Home office", "Multiple living areas"],
-      propertyImages: [
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-      ],
-    },
-    {
-      name: "Isabella Davis",
-      licenseNo: "4556789",
-      rating: 4.0,
-      reviewCount: 30,
-      profileImage: testUser,
-      verified: false,
-      title: "Charming Cottage with Garden and Orchard",
-      location: "65/10 Meadow Road, Paddington",
-      category: "Cottage",
-      description:
-        "A quaint cottage with a lovely garden and orchard, perfect for a peaceful lifestyle.",
-      bedrooms: 2,
-      bathrooms: 1,
-      garageSpaces: 1,
-      landSize: "550m²",
-      features: ["Garden", "Orchard", "Fireplace"],
-      propertyImages: [
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-      ],
-    },
-    {
-      name: "Ethan Clark",
-      licenseNo: "4567890",
-      rating: 4.7,
-      reviewCount: 40,
-      profileImage: testUser,
-      verified: true,
-      title: "Sleek Urban Apartment in Prime Location",
-      location: "2/35 King Street, Fortitude Valley",
-      category: "Apartment",
-      description:
-        "A sleek urban apartment with modern finishes, located in a vibrant area with plenty of amenities.",
-      bedrooms: 1,
-      bathrooms: 1,
-      garageSpaces: 1,
-      landSize: "80m²",
-      features: ["Modern kitchen", "Balcony", "Air conditioning"],
-      propertyImages: [
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-        r1Img,
-        r2Img,
-        r3Img,
-        r4Img,
-        r5Img,
-        r6Img,
-      ],
-    },
+  const defaultImages = [
+    r1Img,
+    r2Img,
+    r3Img,
+    r4Img,
+    r5Img,
+    r6Img,
+    pr1Img,
+    pr2Img,
+    pr3Img,
   ];
 
   const sidePropertyData = [
@@ -363,20 +73,48 @@ const ResidentialPage = () => {
 
   const [resedentialResult, setResedentialResult] = useState(propertyData);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/properties");
+        const data = await res.json();
+
+        // Inject default propertyImages into each property
+        const updatedData = data.map((property) => ({
+          ...property,
+          propertyImages: defaultImages,
+        }));
+
+        setPropertyData(updatedData);
+        setResedentialResult(updatedData);
+      } catch (error) {
+        console.error("Failed to fetch properties:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   //const filterRef = useRef<HTMLDivElement>(null);
 
+  const tabToCategoryMap = {
+    0: ["House", "Apartment"],
+    1: ["Commercial"],
+    2: ["Room", "Shared"],
+  };
+
   const handleSearch = () => {
+    const selectedCategories = tabToCategoryMap[activeTab];
+
     const filteredData = propertyData.filter((data) => {
       return (
-        data.title.toLowerCase().includes(search.toLowerCase()) ||
-        data.location.toLowerCase().includes(search.toLowerCase()) ||
-        data.category.toLowerCase().includes(search.toLowerCase())
+        selectedCategories.includes(data.category) &&
+        (data.title.toLowerCase().includes(search.toLowerCase()) ||
+          data.location.toLowerCase().includes(search.toLowerCase()))
       );
     });
 
     setResedentialResult(filteredData);
-
-    console.log(filteredData);
   };
 
   return (
@@ -410,10 +148,7 @@ const ResidentialPage = () => {
             </div>
 
             <div
-              onClick={() => {
-                setActiveTab(1);
-                navigate("/commercial");
-              }}
+              onClick={() => setActiveTab(1)}
               className={`w-full sm:w-[176px] h-[80px] sm:h-[64px] bg-gradient-to-l gap-3 group cursor-pointer ${
                 activeTab === 1
                   ? "to-[#FE8930] from-[#FFB05F]"
@@ -433,10 +168,7 @@ const ResidentialPage = () => {
             </div>
 
             <div
-              onClick={() => {
-                setActiveTab(2);
-                navigate("/rooming");
-              }}
+              onClick={() => setActiveTab(2)}
               className={`w-full sm:w-[176px] h-[80px] sm:h-[64px] bg-gradient-to-l gap-3 group cursor-pointer ${
                 activeTab === 2
                   ? "to-[#FE8930] from-[#FFB05F]"
